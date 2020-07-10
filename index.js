@@ -5,7 +5,7 @@ import create from './utils/lib/westore/create';
 // async
 import regeneratorRuntime from './utils/lib/runtime';
 // 初始化程序
-const init = require('./utils/init');
+import init from './utils/init';
 module.exports = {
   store,
   create,

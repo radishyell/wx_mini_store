@@ -8,11 +8,14 @@
  * @param trial   体验版配置
  * @param prod    正式版配置
  * */ 
-module.exports = (params = {}) => {
+
+ import radish from './index';
+
+export default function (params = {}) {
   try {
-    const store = require('./store').default;
+    const store = radish.store;
     if (!params.default) {
-      params.default = require('./config/default');
+      params.default = radish.config.defaultConfig;
       console.error(' 最少需要传入一种默认配置 配置如下', params.default);
     }
 
@@ -33,7 +36,7 @@ module.exports = (params = {}) => {
     const methods = params.default.methods;
     if (methods && methods.length) {
       methods.forEach(item => {
-        const tempFun = require(`./tools/${item}.js`).default;
+        const tempFun = radish[item];
         if (tempFun){
           store[item] = tempFun;
         }
@@ -54,11 +57,11 @@ function fetchConfig (params) {
   try {
     const envVersion = wx.getAccountInfoSync().miniProgram.envVersion;
     if (envVersion === 'develop') {
-      return params.develop || require('./config/develop');
+      return params.develop || radish.config.developConfig;
     } else if (envVersion === 'trial') {
-      return params.trial || require('./config/trial');
+      return params.trial || radish.config.trialConfig;
     } else if (envVersion === 'release') {
-      return params.prod || require('./config/prod');
+      return params.prod || radish.config.prodConfig;
     }
     return;
   } catch (error) {
