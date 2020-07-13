@@ -9,7 +9,7 @@
  * @param prod    正式版配置
  * */ 
 
- import radish from './index';
+import radish from './index';
 
 export default function (params = {}) {
   try {
