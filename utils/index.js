@@ -13,6 +13,7 @@ import trialConfig from './config/trial';
 import prodConfig from './config/prod';
 
 export default { 
+  store,
   god, 
   request, 
   share, 
