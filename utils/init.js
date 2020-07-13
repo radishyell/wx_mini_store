@@ -33,10 +33,14 @@ export default function (params = {}) {
       delete store.data.methods;
     }
     // 挂载方法到store底下
+    console.log(params.default);
+    
     const methods = params.default.methods;
     if (methods && methods.length) {
       methods.forEach(item => {
         const tempFun = radish[item];
+        console.log(item);
+        
         if (tempFun){
           store[item] = tempFun;
         }

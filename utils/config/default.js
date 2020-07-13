@@ -8,7 +8,7 @@ module.exports = {
 
   // 动态加载工具方法。名字和tools下的文件命名一致
   methods: [ 
-    'god', 'music', 'request', 'share', 'toast', 'watch', 'aldstat', 'updateManager'
+    'god', 'music', 'request', 'share', 'toast', 'watch', 'aldstat', 'updateManager', 'addFun'
   ],
 
 
