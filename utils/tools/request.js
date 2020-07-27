@@ -21,11 +21,11 @@ params = [{
 ]
  * */
 
-/**
-* 接口请求
-* @param {object/array} 	 请求参数，可以是单个（对象）或者多个（数组对象）请求。
-* @param {boolean}} 是否显示菊花转圈
-*/
+ /**
+ * 接口请求
+ * @param {object/array} 	 请求参数，可以是单个（对象）或者多个（数组对象）请求。
+ * @param {boolean}} 是否显示菊花转圈
+ */
 
 export default function (params = { path: null, params: {}, method: 'GET' }, isShowMask = true) {
 	if (isShowMask) {
@@ -35,7 +35,8 @@ export default function (params = { path: null, params: {}, method: 'GET' }, isS
 	// 判断传入是多个请求还是单个请求
 	const isArray = Object.prototype.toString.call(params) === '[object Array]';
 	// 不管是单个还是多个，都拼接成数组的请求
-	params = isArray ? params : [params];
+	params = isArray ? params : [params]; 
+	// 请求列表
 	// 请求列表
 	const requestList = params.forEach(item => {
 		const url = `${this.data.eventUrl || ''}${item.path}`;
@@ -68,12 +69,12 @@ function request(url, method, data = {}, token = '') {
 			data, //请求参数
 			success: (res) => { //成功回调
 				console.log(url, data, res);
-				const result = {
+				const result = Object.assign({
 					data: res.data.data || null,
 					isSuccess: res.data.code === 0,
 					message: res.data.message || '',
 					code: res.data.code || 200
-				}
+				}, res.data)
 				resolve(result);
 			},
 			fail: () => { //失败回调
