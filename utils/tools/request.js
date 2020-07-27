@@ -37,7 +37,6 @@ export default function (params = { path: null, params: {}, method: 'GET' }, isS
 	// 不管是单个还是多个，都拼接成数组的请求
 	params = isArray ? params : [params]; 
 	// 请求列表
-	// 请求列表
 	const requestList = params.forEach(item => {
 		const url = `${this.data.eventUrl || ''}${item.path}`;
 		const method = item.method || 'GET';
