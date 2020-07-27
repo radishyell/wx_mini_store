@@ -21,13 +21,13 @@ params = [{
 ]
  * */
 
- /**
- * 接口请求
- * @param {object/array} 	 请求参数，可以是单个（对象）或者多个（数组对象）请求。
- * @param {boolean}} 是否显示菊花转圈
- */
+/**
+* 接口请求
+* @param {object/array} 	 请求参数，可以是单个（对象）或者多个（数组对象）请求。
+* @param {boolean}} 是否显示菊花转圈
+*/
 
-export default async function (params = { path: null, params: {}, method: 'GET' }, isShowMask = true) {
+export default function (params = { path: null, params: {}, method: 'GET' }, isShowMask = true) {
 	if (isShowMask) {
 		wx.hideLoading();
 		wx.showLoading({ title: '加载中', mask: true });
@@ -35,15 +35,14 @@ export default async function (params = { path: null, params: {}, method: 'GET' 
 	// 判断传入是多个请求还是单个请求
 	const isArray = Object.prototype.toString.call(params) === '[object Array]';
 	// 不管是单个还是多个，都拼接成数组的请求
-	params = isArray ? params : [params]; 
+	params = isArray ? params : [params];
 	// 请求列表
-	let requestList = [];
-	params.forEach(item => {
+	const requestList = params.forEach(item => {
 		const url = `${this.data.eventUrl || ''}${item.path}`;
 		const method = item.method || 'GET';
 		const data = item.params || {};
 		const token = this.data.token || '';
-		requestList.push(request(url, method, data, token));
+		return request(url, method, data, token)
 	});
 	return Promise.all(requestList).then(result => {
 		const errorInfo = result.find(item => !item.isSuccess);
@@ -53,7 +52,7 @@ export default async function (params = { path: null, params: {}, method: 'GET' 
 		} else {
 			wx.hideLoading();
 		}
-		return isArray? result : result[0];
+		return isArray ? result : result[0];
 	});
 }
 
