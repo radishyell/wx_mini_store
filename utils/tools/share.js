@@ -12,15 +12,15 @@ export default function (options, params = null) {
 	} else {
 		// 点击微信右上角的分享按钮
 	}
-
 	const defaultConfig = {
-		title: '缤纷星年 娇颜绽放 与我一起点亮星年收获娇颜礼吧！',  // 26字 后面变成省略号
-		imageUrl: '',  // 分享封面。必须是URL地址。https://xxx/xx.jpg。URL地址记得是否添加了安全域名
+		title: '默认分享，6字 后面变成省略号',  // 26字 后面变成省略号
+		imageUrl: '分享封面。必须是URL地址。URL地址记得是否添加了安全域名',  
 		path: '/pages/landing/index',      // 分享的后，其他用户点击进来的路径
 	}
+
 	
 	if (params) {
-		Object.assign(defaultConfig, params);
+		Object.assign(defaultConfig, this.data.shareConfig || {}, params);
 	}
 	return defaultConfig;
 }
