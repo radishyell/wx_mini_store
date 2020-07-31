@@ -25,9 +25,10 @@ params = [{
  * 接口请求
  * @param {object/array} 	 请求参数，可以是单个（对象）或者多个（数组对象）请求。
  * @param {boolean}} 是否显示菊花转圈
+ * @param {boolean}} 是否错误的弹窗
  */
 
-export default function (params = { path: null, params: {}, method: 'GET' }, isShowMask = true) {
+export default function (params = { path: null, params: {}, method: 'GET' }, isShowMask = true, isShowToast = true) {
 	if (isShowMask) {
 		wx.hideLoading();
 		wx.showLoading({ title: '加载中', mask: true });
@@ -37,7 +38,7 @@ export default function (params = { path: null, params: {}, method: 'GET' }, isS
 	// 不管是单个还是多个，都拼接成数组的请求
 	params = isArray ? params : [params]; 
 	// 请求列表
-	const requestList = params.forEach(item => {
+	const requestList = params.map(item => {
 		const url = `${this.data.eventUrl || ''}${item.path}`;
 		const method = item.method || 'GET';
 		const data = item.params || {};
@@ -46,7 +47,7 @@ export default function (params = { path: null, params: {}, method: 'GET' }, isS
 	});
 	return Promise.all(requestList).then(result => {
 		const errorInfo = result.find(item => !item.isSuccess);
-		if (errorInfo) {
+		if (errorInfo && isShowToast) {
 			const errorMessage = this.data.isDebug ? (errorInfo.message || '网络开小差') : '网络开小差'
 			this.toast(errorMessage, false);
 		} else {
@@ -72,7 +73,7 @@ function request(url, method, data = {}, token = '') {
 					data: res.data.data || null,
 					isSuccess: res.data.code === 0,
 					message: res.data.message || '',
-					code: res.data.code || 200
+					code: res.data.code || 0
 				}, res.data)
 				resolve(result);
 			},
