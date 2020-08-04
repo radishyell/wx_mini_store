@@ -1,6 +1,6 @@
 {
   "name": "radish_wx_mini_store",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "小程序store组件",
   "main": "index.js",
   "scripts": {
