@@ -1,23 +1,45 @@
 
 /**
- * 音乐播放器，需要改造
+ * 音乐播放器
  */
-export default function () {
+export default function (path = null) {
 	if (!this.data.audioContext) {
+    console.log(' begain create audio context ');
 		const innerAudioContext = wx.createInnerAudioContext();
-		innerAudioContext.autoplay = false;
+		innerAudioContext.autoplay = true;
 		innerAudioContext.loop = true;
-		innerAudioContext.src = this.data.imageUrl + '/bg.mp3';
-		this.data.isPlayMusic = false;
+		innerAudioContext.src = path;
+    this.data.audioPlay = false;
+    this.data.auidoLoad = false;
 		innerAudioContext.onPlay(() => {
-			console.log('music play');
-			this.data.isPlayMusic = true;
+      console.log(' music begain play ');
+      if(!this.data.audioPlay) {
+        this.data.audioPlay = true;
+        this.update();
+      }
 		});
 		innerAudioContext.onPause(() => {
-			console.log('music pause');
-			this.data.isPlayMusic = false;
-		});
-		this.data.audioContext = innerAudioContext;
-	}
+			console.log(' music begain pause ');
+      if(this.data.audioPlay) {
+        this.data.audioPlay = false;
+        this.update();
+      }
+    });
+    innerAudioContext.onCanplay(()=>{
+      console.log(' music can play ');
+      if (!this.data.auidoLoad) {
+        this.data.auidoLoad = true;
+        this.update();
+      }
+    })
+    this.data.audioContext = innerAudioContext;
+	} else {
+    console.log(' change play status current status ', this.data.audioPlay);
+    if (this.data.audioPlay) {
+      this.data.audioContext.pause();
+    } else  {
+      this.data.audioContext.play();
+    }
+  }
 }
 

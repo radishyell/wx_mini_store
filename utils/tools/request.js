@@ -30,7 +30,6 @@ params = [{
 
 export default function (params = { path: null, params: {}, method: 'GET' }, isShowMask = true, isShowToast = true) {
 	if (isShowMask) {
-		wx.hideLoading();
 		wx.showLoading({ title: '加载中', mask: true });
 	}
 	// 判断传入是多个请求还是单个请求
@@ -51,7 +50,9 @@ export default function (params = { path: null, params: {}, method: 'GET' }, isS
 			const errorMessage = this.data.isDebug ? (errorInfo.message || '网络开小差') : '网络开小差'
 			this.toast(errorMessage, false);
 		} else {
-			wx.hideLoading();
+			if (isShowMask) {
+				wx.hideLoading();
+			}
 		}
 		return isArray ? result : result[0];
 	});
