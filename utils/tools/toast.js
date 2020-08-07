@@ -19,6 +19,7 @@ export default function (title = null, isSuccess = true, duration = 1500) {
 	}
 
 	if (title.length > 7) {
+		// 不显示图标，此时 title 文本最多可显示两行
 		params.icon = 'none';
 	}
 	wx.showToast(params);
