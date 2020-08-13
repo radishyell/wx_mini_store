@@ -55,7 +55,9 @@ export default function (params = {}) {
 // 根据当前小程序环境获取不同配置
 function fetchConfig (params) {
   try {
-    const envVersion = wx.getAccountInfoSync().miniProgram.envVersion;
+    // getAccountInfoSync 需要2.10.0支持
+    // 老版本用 __wxConfig.envVersion 获取版本
+    const envVersion = wx.getAccountInfoSync().miniProgram.envVersion || __wxConfig.envVersion;
     if (envVersion === 'develop') {
       return params.develop || radish.config.developConfig;
     } else if (envVersion === 'trial') {
@@ -69,7 +71,6 @@ function fetchConfig (params) {
     return;
   }
 }
-
 
 
 function godInfo(store) {
