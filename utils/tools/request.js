@@ -21,6 +21,8 @@ params = [{
 ]
  * */
 
+import toast from "./toast";
+
  /**
  * 接口请求
  * @param {object/array} 	 请求参数，可以是单个（对象）或者多个（数组对象）请求。
@@ -33,7 +35,7 @@ export default function (params = { path: null, params: {}, method: 'GET' }, isS
 		wx.showLoading({ title: '加载中', mask: true });
 	}
 	// 判断传入是多个请求还是单个请求
-	const isArray = Object.prototype.toString.call(params) === '[object Array]';
+	const isArray = Array.isArray(params);
 	// 不管是单个还是多个，都拼接成数组的请求
 	params = isArray ? params : [params]; 
 	// 请求列表
@@ -47,8 +49,10 @@ export default function (params = { path: null, params: {}, method: 'GET' }, isS
 	return Promise.all(requestList).then(result => {
 		const errorInfo = result.find(item => !item.isSuccess);
 		if (errorInfo && isShowToast) {
-			const errorMessage = this.data.isDebug ? (errorInfo.message || '网络开小差') : '网络开小差'
-			this.toast(errorMessage, false);
+			const errorMessage = ((this.data && this.data.isDebug) || false) ? (errorInfo.message || '网络开小差') : '网络开小差';
+			if (this.toast) {
+				this.toast(errorMessage, false);
+			}
 		} else {
 			if (isShowMask) {
 				wx.hideLoading();

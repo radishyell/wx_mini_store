@@ -1,6 +1,6 @@
 {
   "name": "radish_wx_mini_store",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "小程序store组件",
   "main": "index.js",
   "scripts": {
@@ -16,5 +16,7 @@
   "bugs": {
     "url": "https://github.com/radishyell/wx_mini_store/issues"
   },
-  "homepage": "https://github.com/radishyell/wx_mini_store#readme"
+  "homepage": "https://github.com/radishyell/wx_mini_store#readme",
+  "dependencies": {
+  }
 }

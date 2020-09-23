@@ -25,6 +25,8 @@ export default function (params = {}) {
     // 加载配置
     const config = fetchConfig(params);
     if (config) {
+      // TODO : 深度assign https://github.com/TehShrike/deepmerge
+     
       Object.assign(params.default, config);
     }
     // 挂载初始化的data属性到store底下
